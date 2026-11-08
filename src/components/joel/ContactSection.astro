@@ -1,0 +1,132 @@
+---
+import { Icon } from 'astro-icon/components';
+import { CATALOGO } from '~/data/catalogo';
+import { NEGOCIO } from '~/data/negocio';
+
+export interface Props {
+  /** Categoría preseleccionada en el formulario. */
+  categoria?: string;
+}
+
+const { categoria } = Astro.props;
+---
+
+<section id="contacto" class="scroll-mt-20 bg-[#1c1915] text-[#efe7dc]">
+  <div class="mx-auto grid max-w-7xl gap-12 px-4 py-20 sm:px-6 md:py-28 lg:grid-cols-2 lg:gap-20">
+    <div>
+      <p class="eyebrow !text-[#c9a27a]">Contacto</p>
+      <h2 class="mt-4 font-heading text-4xl leading-[1.05] text-white md:text-6xl">
+        Cuéntanos de <em class="text-[#c9a27a]">tu día</em>.
+      </h2>
+      <p class="mt-6 max-w-md leading-relaxed text-[#efe7dc]/75">
+        Las fechas de temporada se apartan con meses de anticipación. Escríbenos con los datos de tu evento y te
+        respondemos por WhatsApp con disponibilidad y paquetes.
+      </p>
+      <ul class="mt-10 space-y-4 text-sm">
+        <li class="flex items-center gap-3">
+          <Icon name="tabler:map-pin" class="h-5 w-5 text-[#c9a27a]" />
+          {NEGOCIO.ciudad} · cobertura en todo Sinaloa y destinos
+        </li>
+        <li class="flex items-center gap-3">
+          <Icon name="tabler:mail" class="h-5 w-5 text-[#c9a27a]" />
+          <a href={`mailto:${NEGOCIO.email}`} class="break-all hover:text-white">{NEGOCIO.email}</a>
+        </li>
+        <li class="flex items-center gap-3">
+          <Icon name="tabler:brand-facebook" class="h-5 w-5 text-[#c9a27a]" />
+          <a href={NEGOCIO.facebook} target="_blank" rel="noopener noreferrer" class="hover:text-white">
+            facebook.com/FotografiaJoelGodoy
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <form
+      id="cotizar"
+      data-wa={NEGOCIO.whatsapp}
+      class="grid gap-5 rounded-sm border border-white/10 bg-white/[0.03] p-6 sm:grid-cols-2 md:p-8"
+    >
+      <label class="sm:col-span-2">
+        <span class="mb-1.5 block text-xs font-semibold uppercase tracking-[0.2em] text-[#efe7dc]/60">Nombre</span>
+        <input
+          name="nombre"
+          required
+          autocomplete="name"
+          class="w-full border-0 border-b border-white/20 bg-transparent px-0 py-2 text-white placeholder:text-white/30 focus:border-[#c9a27a] focus:ring-0"
+          placeholder="Tu nombre"
+        />
+      </label>
+      <label>
+        <span class="mb-1.5 block text-xs font-semibold uppercase tracking-[0.2em] text-[#efe7dc]/60">Tipo de evento</span>
+        <select
+          name="evento"
+          class="w-full border-0 border-b border-white/20 bg-transparent px-0 py-2 text-white focus:border-[#c9a27a] focus:ring-0 [&>option]:text-black"
+        >
+          {CATALOGO.map((c) => <option value={c.titulo} selected={c.slug === categoria}>{c.titulo}</option>)}
+          <option value="Otro evento">Otro evento</option>
+        </select>
+      </label>
+      <label>
+        <span class="mb-1.5 block text-xs font-semibold uppercase tracking-[0.2em] text-[#efe7dc]/60">Fecha</span>
+        <input
+          type="date"
+          name="fecha"
+          class="w-full border-0 border-b border-white/20 bg-transparent px-0 py-2 text-white [color-scheme:dark] focus:border-[#c9a27a] focus:ring-0"
+        />
+      </label>
+      <label class="sm:col-span-2">
+        <span class="mb-1.5 block text-xs font-semibold uppercase tracking-[0.2em] text-[#efe7dc]/60"
+          >Lugar del evento</span
+        >
+        <input
+          name="lugar"
+          class="w-full border-0 border-b border-white/20 bg-transparent px-0 py-2 text-white placeholder:text-white/30 focus:border-[#c9a27a] focus:ring-0"
+          placeholder="Salón, hacienda, playa…"
+        />
+      </label>
+      <label class="sm:col-span-2">
+        <span class="mb-1.5 block text-xs font-semibold uppercase tracking-[0.2em] text-[#efe7dc]/60">Mensaje</span>
+        <textarea
+          name="mensaje"
+          rows="3"
+          class="w-full resize-none border-0 border-b border-white/20 bg-transparent px-0 py-2 text-white placeholder:text-white/30 focus:border-[#c9a27a] focus:ring-0"
+          placeholder="Número de invitados, horario, ideas…"></textarea>
+      </label>
+      <button
+        type="submit"
+        class="inline-flex items-center justify-center gap-2 rounded-full bg-[#c9a27a] px-8 py-3.5 font-semibold text-[#1c1915] transition hover:bg-[#dcb994] sm:col-span-2"
+      >
+        <Icon name="tabler:brand-whatsapp" class="h-5 w-5" /> Enviar por WhatsApp
+      </button>
+      <p class="text-center text-xs text-[#efe7dc]/50 sm:col-span-2">
+        Se abrirá WhatsApp con tu mensaje listo para enviar.
+      </p>
+    </form>
+  </div>
+</section>
+
+<script>
+  const setup = () => {
+    const form = document.querySelector<HTMLFormElement>('#cotizar');
+    if (!form || form.dataset.ready) return;
+    form.dataset.ready = '1';
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const d = new FormData(form);
+      const v = (k: string) => String(d.get(k) ?? '').trim();
+      const fecha = v('fecha')
+        ? new Date(v('fecha') + 'T12:00:00').toLocaleDateString('es-MX', { dateStyle: 'long' })
+        : 'por definir';
+      const lineas = [
+        `Hola Joel, soy ${v('nombre')}.`,
+        `Me interesa cotizar: ${v('evento')}.`,
+        `Fecha: ${fecha}.`,
+        v('lugar') && `Lugar: ${v('lugar')}.`,
+        v('mensaje'),
+      ].filter(Boolean);
+      const url = `https://wa.me/${form.dataset.wa}?text=${encodeURIComponent(lineas.join('\n'))}`;
+      window.open(url, '_blank', 'noopener');
+    });
+  };
+  setup();
+  document.addEventListener('astro:page-load', setup);
+</script>

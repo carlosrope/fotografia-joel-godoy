@@ -1,0 +1,53 @@
+---
+// Fotografía Joel Godoy — identidad visual.
+// Fuentes: Manrope (texto) y Cormorant Garamond (títulos), vía Astro Fonts API
+// (ver `fonts` en astro.config.ts y <Font /> en Layout.astro).
+// Paleta: marfil cálido + tinta + acento bronce/champán.
+---
+
+<style is:inline>
+  :root {
+    --aw-font-sans: var(--font-manrope);
+    --aw-font-serif: var(--font-cormorant);
+    --aw-font-heading: var(--font-cormorant);
+
+    --aw-color-primary: rgb(28 25 21); /* tinta: botones principales */
+    --aw-color-secondary: rgb(122 90 56); /* bronce oscuro: hover */
+    --aw-color-accent: rgb(160 122 79); /* bronce champán */
+    --aw-color-link: rgb(122 90 56);
+
+    --aw-color-text-heading: rgb(28 25 21);
+    --aw-color-text-default: rgb(46 41 36);
+    --aw-color-text-muted: rgb(46 41 36 / 68%);
+    --aw-color-bg-page: rgb(247 243 237);
+    --aw-color-bg-soft: rgb(239 232 222);
+
+    --aw-color-bg-page-dark: rgb(20 18 16);
+
+    ::selection {
+      background-color: rgb(160 122 79 / 30%);
+    }
+  }
+
+  .dark {
+    --aw-font-sans: var(--font-manrope);
+    --aw-font-serif: var(--font-cormorant);
+    --aw-font-heading: var(--font-cormorant);
+
+    --aw-color-primary: rgb(236 228 216);
+    --aw-color-secondary: rgb(201 162 122);
+    --aw-color-accent: rgb(201 162 122);
+    --aw-color-link: rgb(201 162 122);
+
+    --aw-color-text-heading: rgb(244 238 229);
+    --aw-color-text-default: rgb(226 218 207);
+    --aw-color-text-muted: rgb(226 218 207 / 66%);
+    --aw-color-bg-page: rgb(20 18 16);
+    --aw-color-bg-soft: rgb(31 28 25);
+
+    ::selection {
+      background-color: rgb(201 162 122 / 35%);
+      color: snow;
+    }
+  }
+</style>

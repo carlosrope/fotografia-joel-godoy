@@ -1,0 +1,90 @@
+---
+import { Icon } from 'astro-icon/components';
+import Logo from '~/components/Logo.astro';
+import { NEGOCIO, waLink } from '~/data/negocio';
+
+interface Link {
+  text: string;
+  href: string;
+}
+export interface Props {
+  links: Array<{ title: string; links: Link[] }>;
+}
+
+const { links = [] } = Astro.props;
+const year = new Date().getFullYear();
+const isExternal = (href: string) => /^(https?:|mailto:)/.test(href);
+---
+
+<footer class="relative border-t border-black/10 bg-soft dark:border-white/10">
+  <div class="mx-auto max-w-7xl px-4 sm:px-6">
+    <div class="grid grid-cols-12 gap-8 py-14 md:py-16">
+      <div class="col-span-12 lg:col-span-5">
+        <Logo />
+        <p class="mt-5 max-w-sm text-sm leading-relaxed text-muted">
+          Fotografía de bodas, XV años y eventos en {NEGOCIO.ciudad}. Historias reales, contadas con luz natural y
+          mirada editorial.
+        </p>
+        <div class="mt-6 flex gap-2">
+          <a
+            href={waLink()}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="WhatsApp"
+            class="inline-flex h-10 w-10 items-center justify-center rounded-full border border-black/15 text-heading transition hover:border-accent hover:text-accent dark:border-white/15"
+          >
+            <Icon name="tabler:brand-whatsapp" class="h-5 w-5" />
+          </a>
+          <a
+            href={NEGOCIO.facebook}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Facebook"
+            class="inline-flex h-10 w-10 items-center justify-center rounded-full border border-black/15 text-heading transition hover:border-accent hover:text-accent dark:border-white/15"
+          >
+            <Icon name="tabler:brand-facebook" class="h-5 w-5" />
+          </a>
+          {
+            NEGOCIO.instagram && (
+              <a
+                href={NEGOCIO.instagram}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Instagram"
+                class="inline-flex h-10 w-10 items-center justify-center rounded-full border border-black/15 text-heading transition hover:border-accent hover:text-accent dark:border-white/15"
+              >
+                <Icon name="tabler:brand-instagram" class="h-5 w-5" />
+              </a>
+            )
+          }
+        </div>
+      </div>
+      {
+        links.map(({ title, links }) => (
+          <div class="col-span-6 md:col-span-4 lg:col-span-2 lg:first-of-type:col-start-7">
+            <p class="eyebrow mb-4">{title}</p>
+            <ul class="space-y-2.5 text-sm">
+              {links.map(({ text, href }) => (
+                <li>
+                  <a
+                    href={href}
+                    class="break-all text-muted transition hover:text-heading sm:break-normal"
+                    {...(isExternal(href) ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+                  >
+                    {text}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))
+      }
+    </div>
+    <div
+      class="flex flex-col gap-2 border-t border-black/10 py-6 pb-24 text-xs text-muted sm:flex-row sm:justify-between sm:pb-6 sm:pr-20 dark:border-white/10"
+    >
+      <span>© {year} {NEGOCIO.nombre}. Todos los derechos reservados.</span>
+      <span>{NEGOCIO.zona}</span>
+    </div>
+  </div>
+</footer>

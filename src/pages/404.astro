@@ -1,0 +1,21 @@
+---
+import Layout from '~/layouts/Layout.astro';
+import { getHomePermalink } from '~/utils/permalinks';
+
+const title = `Página no encontrada`;
+---
+
+<Layout metadata={{ title }}>
+  <section class="flex h-full items-center p-16">
+    <div class="mx-auto my-8 flex flex-col items-center justify-center px-5">
+      <div class="max-w-md text-center">
+        <h1 class="mb-6 font-heading text-9xl text-accent">
+          <span class="sr-only">Error</span>404
+        </h1>
+        <p class="font-heading text-3xl text-heading">Esta página no existe.</p>
+        <p class="mt-4 mb-8 text-lg text-muted">Pero en el inicio hay muchas historias esperándote.</p>
+        <a href={getHomePermalink()} class="btn-primary">Volver al inicio</a>
+      </div>
+    </div>
+  </section>
+</Layout>

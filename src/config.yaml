@@ -1,0 +1,74 @@
+site:
+  name: Fotografía Joel Godoy
+  # Vista previa en GitHub Pages. Al conectar el dominio propio, cambiar a
+  # site: 'https://<dominio>'  y  base: '/'
+  site: 'https://carlosrope.github.io'
+  base: '/fotografia-joel-godoy'
+  trailingSlash: false
+
+  googleSiteVerificationId: null
+
+# SEO por defecto
+metadata:
+  title:
+    default: Fotografía Joel Godoy
+    template: '%s — Fotografía Joel Godoy'
+  description: 'Fotógrafo profesional en Los Mochis, Sinaloa. Bodas en playa, salón y hacienda, XV años, baby shower y sesiones de pareja y familia.'
+  robots:
+    index: true
+    follow: true
+  openGraph:
+    site_name: Fotografía Joel Godoy
+    images:
+      - url: '~/assets/images/default.png'
+        width: 1200
+        height: 628
+    type: website
+  twitter:
+    handle: null
+    site: null
+    cardType: summary_large_image
+
+i18n:
+  language: es
+  textDirection: ltr
+
+apps:
+  blog:
+    isEnabled: false
+    postsPerPage: 8
+
+    post:
+      isEnabled: true
+      permalink: '/%slug%'
+      robots:
+        index: true
+
+    list:
+      isEnabled: true
+      pathname: 'blog'
+      robots:
+        index: true
+
+    category:
+      isEnabled: true
+      pathname: 'category'
+      robots:
+        index: true
+
+    tag:
+      isEnabled: true
+      pathname: 'tag'
+      robots:
+        index: false
+
+    isRelatedPostsEnabled: true
+    relatedPostsCount: 4
+
+analytics:
+  vendors:
+    googleAnalytics:
+      id: null # o "G-XXXXXXXXXX"
+
+ui:
+  theme: 'light' # "system" | "light" | "dark" | "light:only" | "dark:only"
