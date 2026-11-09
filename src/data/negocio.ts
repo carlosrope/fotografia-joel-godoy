@@ -18,5 +18,5 @@ export const NEGOCIO = {
 };
 
 /** Enlace de WhatsApp con mensaje prellenado. */
-export const waLink = (mensaje = 'Hola Joel, me gustaría cotizar una sesión.') =>
+export const waLink = (mensaje = 'Hola Joel, me gustaría agendar una fecha.') =>
   `https://wa.me/${NEGOCIO.whatsapp}?text=${encodeURIComponent(mensaje)}`;

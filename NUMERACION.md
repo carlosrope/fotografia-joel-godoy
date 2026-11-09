@@ -16,7 +16,7 @@ Los números siguen el orden de la página de arriba hacia abajo.
 | **1** | **Barra superior** | Fija siempre arriba |
 | 1.1 | Logo «Joel Godoy · Fotografía» | |
 | 1.2 | Menú con iconos | Escritorio: enlaces. Móvil: botón ☰ |
-| 1.3 | Botón «Cotizar» | Escritorio (en móvil aparece dentro del ☰) |
+| 1.3 | Botón «Agendar» | Escritorio (en móvil aparece dentro del ☰) |
 | **9** | **Contacto** | |
 | 9.1 | Texto y datos (ciudad, correo, Facebook) | |
 | 9.2 | Formulario que envía a WhatsApp | |
@@ -66,7 +66,7 @@ Los números siguen el orden de la página de arriba hacia abajo.
 | C1.1 | Ruta (Inicio / Catálogo / …) |
 | C1.2 | Título y frase |
 | **C2** | **Descripción y qué incluye** |
-| C2.1 | Descripción y botón Cotizar |
+| C2.1 | Descripción y botón Agendar |
 | C2.2 | Qué incluye |
 | **C3** | **Galería** |
 | **C4** | **También fotografiamos** |

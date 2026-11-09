@@ -67,16 +67,16 @@ const metadata = {
     data-ref-name="Descripción y qué incluye"
     class="mx-auto grid max-w-7xl gap-12 px-4 py-16 sm:px-6 md:py-24 lg:grid-cols-12"
   >
-    <div class="lg:col-span-6" data-ref="C2.1" data-ref-name="Descripción y botón">
+    <div class="lg:col-span-6" data-ref="C2.1" data-ref-name="Descripción y botón Agendar">
       <p class="eyebrow">La experiencia</p>
       <p class="mt-5 font-heading text-[1.75rem] leading-snug text-heading md:text-[2.1rem]">{categoria.descripcion}</p>
       <a
-        href={waLink(`Hola Joel, me interesa cotizar: ${categoria.titulo}.`)}
+        href={waLink(`Hola Joel, me gustaría agendar: ${categoria.titulo}.`)}
         target="_blank"
         rel="noopener noreferrer"
         class="btn-primary mt-9 gap-2"
       >
-        <Icon name="tabler:brand-whatsapp" class="h-5 w-5" /> Cotizar {categoria.tituloCorto.toLowerCase()}
+        <Icon name="tabler:brand-whatsapp" class="h-5 w-5" /> Agendar {categoria.tituloCorto.toLowerCase()}
       </a>
     </div>
     <div class="bg-soft p-8 md:p-10 lg:col-span-5 lg:col-start-8" data-ref="C2.2" data-ref-name="Qué incluye">

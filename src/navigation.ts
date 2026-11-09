@@ -30,7 +30,7 @@ export const headerData = {
     { text: 'Opiniones', href: getPermalink('/#opiniones'), icon: 'tabler:star' },
     { text: 'Contacto', href: getPermalink('/#contacto'), icon: 'tabler:message-circle' },
   ],
-  actions: [{ text: 'Cotizar', href: waLink(), target: '_blank', variant: 'primary' as const, icon: 'tabler:brand-whatsapp' }],
+  actions: [{ text: 'Agendar', href: waLink(), target: '_blank', variant: 'primary' as const, icon: 'tabler:brand-whatsapp' }],
 };
 
 export const footerData = {
