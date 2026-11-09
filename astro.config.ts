@@ -55,6 +55,16 @@ export default defineConfig({
       subsets: ['latin'],
       fallbacks: ['serif'],
     },
+    {
+      // Título de la portada (más grueso que Cormorant).
+      provider: fontProviders.fontsource(),
+      name: 'Playfair Display',
+      cssVariable: '--font-playfair',
+      weights: [500, 600],
+      styles: ['normal', 'italic'],
+      subsets: ['latin'],
+      fallbacks: ['serif'],
+    },
   ],
 
   integrations: [

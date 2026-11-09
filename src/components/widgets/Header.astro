@@ -194,32 +194,6 @@ const persistKey = `header-${Array.from(
         </div>
       </div>
     </div>
-    {
-      quickLinks.length > 0 && (
-        <nav
-          data-quick-nav
-          data-ref="1.4"
-          data-ref-name="Accesos rápidos"
-          aria-label="Accesos rápidos"
-          class="relative lg:hidden border-t border-black/[0.07]"
-        >
-          <ul class="mx-auto flex max-w-xl justify-between px-1">
-            {quickLinks.map(({ text, href, icon }) => (
-              <li class="flex-1">
-                <a
-                  href={href}
-                  data-quick-link
-                  class="flex flex-col items-center gap-0.5 pb-2 pt-1.5 text-[0.62rem] font-semibold uppercase tracking-[0.08em] text-muted transition-colors"
-                >
-                  {icon && <Icon name={icon} class="h-[22px] w-[22px]" />}
-                  {text}
-                </a>
-              </li>
-            ))}
-          </ul>
-        </nav>
-      )
-    }
   </header>
 </aw-header>
 
@@ -293,32 +267,11 @@ const persistKey = `header-${Array.from(
       // Sticky header: toggle the `scroll` class past a small threshold.
       if (header?.hasAttribute('data-aw-sticky-header')) {
         let ticking = false;
-        const quickLinks = Array.from(this.querySelectorAll<HTMLAnchorElement>('[data-quick-link]'));
-        // Resalta en la barra de accesos rápidos la sección que se está viendo.
-        const updateQuick = () => {
-          const line = header.offsetHeight + 24;
-          let current: HTMLAnchorElement | undefined;
-          let best = -Infinity;
-          for (const a of quickLinks) {
-            const url = new URL(a.href, window.location.href);
-            if (url.pathname.replace(/\/+$/, '') !== window.location.pathname.replace(/\/+$/, '')) continue;
-            const section = url.hash ? document.querySelector<HTMLElement>(url.hash) : null;
-            if (!section) continue;
-            const top = section.getBoundingClientRect().top;
-            if (top <= line && top > best) {
-              best = top;
-              current = a;
-            }
-          }
-          quickLinks.forEach((a) => a.classList.toggle('is-active', a === current));
-        };
         const applyStyles = () => {
           if (window.scrollY > 10) header.classList.add('scroll');
           else header.classList.remove('scroll');
-          updateQuick();
           ticking = false;
         };
-        document.addEventListener('astro:page-load', applyStyles);
         this.onScroll = () => {
           if (!ticking) {
             window.requestAnimationFrame(applyStyles);

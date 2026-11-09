@@ -1,0 +1,124 @@
+---
+// Mosaico de fotos: al tocar una se abre en grande (pantalla completa) con
+// flechas, deslizar con el dedo y teclado (← → Esc). Sin librerías.
+import { Icon } from 'astro-icon/components';
+import Image from '~/components/common/Image.astro';
+import type { ImageMetadata } from 'astro';
+
+interface Props {
+  fotos: Array<{ src: ImageMetadata; alt: string }>;
+}
+
+const { fotos } = Astro.props;
+---
+
+<jg-mosaic>
+  <div class="columns-2 gap-3 sm:gap-4 md:columns-3 md:gap-5" data-ref="4.2" data-ref-name="Mosaico de fotos">
+    {
+      fotos.map((f, i) => (
+        <button
+          type="button"
+          data-open={i}
+          aria-label={`Ver foto en grande: ${f.alt}`}
+          class="group mb-3 block w-full cursor-zoom-in break-inside-avoid overflow-hidden rounded-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-accent sm:mb-4 md:mb-5"
+        >
+          <Image
+            src={f.src}
+            alt={f.alt}
+            width={800}
+            widths={[400, 800, 1600]}
+            sizes="(max-width: 767px) 50vw, 33vw"
+            class="w-full object-cover transition duration-500 group-hover:scale-[1.03]"
+          />
+        </button>
+      ))
+    }
+  </div>
+
+  <dialog
+    class="fixed inset-0 m-0 h-full max-h-none w-full max-w-none bg-black/95 p-0 text-white backdrop:bg-black/90"
+    aria-label="Visor de fotos"
+  >
+    <div class="flex h-full w-full items-center justify-center" data-stage>
+      <img data-img class="max-h-full max-w-full select-none object-contain" alt="" draggable="false" />
+    </div>
+    <p data-count class="absolute left-4 top-4 text-xs font-semibold tracking-[0.2em] text-white/70"></p>
+    <button
+      type="button"
+      data-close
+      aria-label="Cerrar"
+      class="absolute right-3 top-3 inline-flex h-11 w-11 items-center justify-center rounded-full bg-white/10 hover:bg-white/20"
+    >
+      <Icon name="tabler:x" class="h-6 w-6" />
+    </button>
+    <button
+      type="button"
+      data-prev
+      aria-label="Foto anterior"
+      class="absolute left-2 top-1/2 inline-flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-white/10 hover:bg-white/20"
+    >
+      <Icon name="tabler:chevron-left" class="h-6 w-6" />
+    </button>
+    <button
+      type="button"
+      data-next
+      aria-label="Foto siguiente"
+      class="absolute right-2 top-1/2 inline-flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-white/10 hover:bg-white/20"
+    >
+      <Icon name="tabler:chevron-right" class="h-6 w-6" />
+    </button>
+  </dialog>
+</jg-mosaic>
+
+<script>
+  class JgMosaic extends HTMLElement {
+    connectedCallback() {
+      const dialog = this.querySelector('dialog')!;
+      const img = dialog.querySelector<HTMLImageElement>('[data-img]')!;
+      const count = dialog.querySelector<HTMLElement>('[data-count]')!;
+      const buttons = [...this.querySelectorAll<HTMLButtonElement>('[data-open]')];
+      let current = 0;
+
+      const show = (i: number) => {
+        current = (i + buttons.length) % buttons.length;
+        const source = buttons[current].querySelector('img')!;
+        // La versión más grande disponible del srcset.
+        const candidates = (source.srcset || '')
+          .split(',')
+          .map((c) => c.trim().split(' ')[0])
+          .filter(Boolean);
+        img.src = candidates[candidates.length - 1] || source.currentSrc || source.src;
+        img.alt = source.alt;
+        count.textContent = `${current + 1} / ${buttons.length}`;
+      };
+
+      buttons.forEach((b, i) =>
+        b.addEventListener('click', () => {
+          show(i);
+          dialog.showModal();
+          document.body.style.overflow = 'hidden';
+        })
+      );
+      dialog.addEventListener('close', () => (document.body.style.overflow = ''));
+      dialog.querySelector('[data-close]')!.addEventListener('click', () => dialog.close());
+      dialog.querySelector('[data-prev]')!.addEventListener('click', () => show(current - 1));
+      dialog.querySelector('[data-next]')!.addEventListener('click', () => show(current + 1));
+      dialog.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowLeft') show(current - 1);
+        if (e.key === 'ArrowRight') show(current + 1);
+      });
+      // Tocar el fondo (fuera de la foto) cierra.
+      dialog.querySelector('[data-stage]')!.addEventListener('click', (e) => {
+        if (e.target === e.currentTarget) dialog.close();
+      });
+      // Deslizar con el dedo para cambiar de foto.
+      let x0 = 0;
+      dialog.addEventListener('touchstart', (e) => (x0 = e.touches[0].clientX), { passive: true });
+      dialog.addEventListener('touchend', (e) => {
+        const dx = e.changedTouches[0].clientX - x0;
+        if (Math.abs(dx) > 50) show(current + (dx < 0 ? 1 : -1));
+      });
+    }
+  }
+  if (!customElements.get('jg-mosaic')) customElements.define('jg-mosaic', JgMosaic);
+</script>

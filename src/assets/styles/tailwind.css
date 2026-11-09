@@ -93,12 +93,9 @@
     background-color: color-mix(in srgb, var(--aw-color-bg-page) 92%, transparent);
   }
 }
-/* Accesos rápidos (móvil): ocultos con el menú abierto; resaltado de la sección actual. */
-#header.expanded [data-quick-nav] {
-  display: none;
-}
-#header [data-quick-link].is-active {
-  @apply text-accent;
+/* Tipografía gruesa para el título de la portada. */
+@utility font-display {
+  font-family: var(--font-playfair), Georgia, serif;
 }
 .dark #header.scroll > div:first-child,
 #header.scroll.dark > div:first-child {

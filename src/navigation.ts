@@ -23,16 +23,10 @@ export const headerData = {
         icon: ICONO_CATEGORIA[c.slug] ?? 'tabler:photo',
       })),
     },
-    { text: 'Estilo', href: getPermalink('/#estilo'), icon: 'tabler:aperture' },
+    // Mismo orden que las secciones del Inicio.
+    { text: 'Momentos', href: getPermalink('/#momentos'), icon: 'tabler:photo' },
     { text: 'Proceso', href: getPermalink('/#proceso'), icon: 'tabler:route' },
-    { text: 'Opiniones', href: getPermalink('/#opiniones'), icon: 'tabler:star' },
-    { text: 'Contacto', href: getPermalink('/#contacto'), icon: 'tabler:message-circle' },
-  ],
-  // Barra de accesos rápidos con icono, siempre visible bajo el logo en móvil.
-  quickLinks: [
-    { text: 'Catálogo', href: getPermalink('/#catalogo'), icon: 'tabler:camera' },
     { text: 'Estilo', href: getPermalink('/#estilo'), icon: 'tabler:aperture' },
-    { text: 'Proceso', href: getPermalink('/#proceso'), icon: 'tabler:route' },
     { text: 'Opiniones', href: getPermalink('/#opiniones'), icon: 'tabler:star' },
     { text: 'Contacto', href: getPermalink('/#contacto'), icon: 'tabler:message-circle' },
   ],

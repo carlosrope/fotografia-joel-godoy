@@ -6,13 +6,9 @@ import type { Opinion } from '~/data/opiniones';
 
 interface Props {
   opiniones: Opinion[];
-  /** Nombres de todas las personas que recomiendan (cinta inferior). */
-  nombres?: string[];
 }
 
-const { opiniones, nombres = [] } = Astro.props;
-const cinta: string[] = [];
-while (cinta.length < 24 && nombres.length) cinta.push(...nombres);
+const { opiniones } = Astro.props;
 
 // Repetimos la lista hasta tener suficientes tarjetas para llenar pantallas anchas.
 const base: Opinion[] = [];
@@ -71,20 +67,6 @@ const duracion = Math.round((base.length * 336) / 45);
     </ul>
   </div>
 
-  {
-    cinta.length > 0 && (
-      <div class="mt-4 overflow-hidden" data-ref="7.3" data-ref-name="Cinta de nombres" aria-label={`${nombres.length} personas lo recomiendan en Facebook`}>
-        <ul class="names-track flex w-max gap-2.5 px-4 py-1 sm:px-6" aria-hidden="true">
-          {[...cinta, ...cinta].map((n) => (
-            <li class="flex flex-none items-center gap-1.5 rounded-full border border-black/10 px-3.5 py-1.5 text-xs text-muted">
-              <Icon name="tabler:circle-check-filled" class="h-4 w-4 text-accent" />
-              <span class="font-semibold text-heading">{n}</span> lo recomienda
-            </li>
-          ))}
-        </ul>
-      </div>
-    )
-  }
 </div>
 
 <style>
@@ -102,9 +84,6 @@ const duracion = Math.round((base.length * 336) / 45);
   }
   .reviews-marquee[data-animating] .marquee-track {
     animation: marquee-ltr var(--marquee-duration, 60s) linear infinite;
-  }
-  .reviews-marquee[data-animating] .names-track {
-    animation: marquee-ltr calc(var(--marquee-duration, 60s) * 1.4) linear infinite;
   }
   .reviews-marquee[data-animating]:hover .marquee-track,
   .reviews-marquee[data-animating]:focus-within .marquee-track,
