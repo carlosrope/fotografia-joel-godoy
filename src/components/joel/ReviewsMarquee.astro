@@ -1,0 +1,153 @@
+---
+// Carrusel infinito de reseñas: se desliza solo de izquierda a derecha,
+// se pausa al tocarlo o pasar el mouse y también se puede arrastrar con el dedo.
+import { Icon } from 'astro-icon/components';
+import type { Opinion } from '~/data/opiniones';
+
+interface Props {
+  opiniones: Opinion[];
+}
+
+const { opiniones } = Astro.props;
+
+// Repetimos la lista hasta tener suficientes tarjetas para llenar pantallas anchas.
+const base: Opinion[] = [];
+while (base.length < 8 && opiniones.length) base.push(...opiniones);
+
+const iniciales = (nombre: string) =>
+  nombre
+    .split(/\s+/)
+    .slice(0, 2)
+    .map((p) => p[0])
+    .join('')
+    .toUpperCase();
+
+// Velocidad constante (~45 px/s) sin importar cuántas reseñas haya.
+const duracion = Math.round((base.length * 336) / 45);
+---
+
+<div
+  class="reviews-marquee relative -mx-4 sm:-mx-6"
+  style={`--marquee-duration: ${duracion}s`}
+  data-reviews-marquee
+>
+  <div class="pointer-events-none absolute inset-y-0 left-0 z-10 w-8 bg-gradient-to-r from-[var(--aw-color-bg-page)] sm:w-16"></div>
+  <div class="pointer-events-none absolute inset-y-0 right-0 z-10 w-8 bg-gradient-to-l from-[var(--aw-color-bg-page)] sm:w-16"></div>
+
+  <div class="marquee-viewport overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden" data-viewport>
+    <ul class="marquee-track flex w-max gap-4 px-4 py-2 sm:gap-5 sm:px-6" data-track>
+      {
+        [...base, ...base].map((o, i) => (
+          <li class="w-[80vw] max-w-[20rem] flex-none" aria-hidden={i >= base.length ? 'true' : undefined}>
+            <figure class="flex h-full flex-col bg-soft p-6">
+              <div class="flex gap-0.5 text-accent" aria-label="Recomienda">
+                {[1, 2, 3, 4, 5].map(() => (
+                  <Icon name="tabler:star-filled" class="h-4 w-4" />
+                ))}
+              </div>
+              <blockquote class="mt-4 flex-1 font-heading text-[1.2rem] italic leading-snug text-heading">
+                “{o.texto}”
+              </blockquote>
+              <figcaption class="mt-6 flex items-center gap-3 text-sm">
+                <span class="flex h-10 w-10 flex-none items-center justify-center rounded-full bg-[#1c1915] text-xs font-semibold tracking-wider text-[#efe7dc]">
+                  {iniciales(o.autor)}
+                </span>
+                <span class="min-w-0">
+                  <span class="block truncate font-semibold text-heading">{o.autor}</span>
+                  <span class="flex items-center gap-1 text-xs text-muted">
+                    <Icon name="tabler:brand-facebook-filled" class="h-3.5 w-3.5 text-[#1877f2]" />
+                    {[o.evento ?? 'Recomienda en Facebook', o.fecha].filter(Boolean).join(' · ')}
+                  </span>
+                </span>
+              </figcaption>
+            </figure>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</div>
+
+<style>
+  /* Movimiento continuo de izquierda a derecha (el contenido avanza hacia la derecha). */
+  @keyframes marquee-ltr {
+    from {
+      transform: translateX(-50%);
+    }
+    to {
+      transform: translateX(0);
+    }
+  }
+  .reviews-marquee[data-animating] .marquee-viewport {
+    overflow: hidden;
+  }
+  .reviews-marquee[data-animating] .marquee-track {
+    animation: marquee-ltr var(--marquee-duration, 60s) linear infinite;
+  }
+  .reviews-marquee[data-animating]:hover .marquee-track,
+  .reviews-marquee[data-animating]:focus-within .marquee-track,
+  .reviews-marquee[data-paused] .marquee-track {
+    animation-play-state: paused;
+  }
+</style>
+
+<script>
+  // Arranca la animación solo si el usuario no pidió reducir movimiento.
+  // Al tocar en el celular: se pausa y se puede arrastrar; al soltar, sigue sola.
+  const init = () => {
+    document.querySelectorAll<HTMLElement>('[data-reviews-marquee]').forEach((root) => {
+      if (root.dataset.ready) return;
+      root.dataset.ready = '1';
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      root.toggleAttribute('data-animating', true);
+
+      const track = root.querySelector<HTMLElement>('[data-track]')!;
+      let startX = 0;
+      let offset = 0;
+      let dragging = false;
+
+      const currentX = () => new DOMMatrixReadOnly(getComputedStyle(track).transform).m41;
+
+      root.addEventListener(
+        'touchstart',
+        (e) => {
+          dragging = true;
+          startX = e.touches[0].clientX;
+          offset = currentX();
+          root.toggleAttribute('data-paused', true);
+          track.style.animation = 'none';
+          track.style.transform = `translateX(${offset}px)`;
+        },
+        { passive: true }
+      );
+      root.addEventListener(
+        'touchmove',
+        (e) => {
+          if (!dragging) return;
+          const half = track.scrollWidth / 2;
+          let x = offset + (e.touches[0].clientX - startX);
+          // Mantener dentro del ciclo [-half, 0] para que sea infinito.
+          if (x > 0) x -= half;
+          if (x < -half) x += half;
+          track.style.transform = `translateX(${x}px)`;
+        },
+        { passive: true }
+      );
+      root.addEventListener('touchend', () => {
+        if (!dragging) return;
+        dragging = false;
+        const half = track.scrollWidth / 2;
+        const x = currentX();
+        // Reanudar la animación desde la posición donde se soltó.
+        const progress = (x + half) / half; // 0 → -50%, 1 → 0
+        const dur = parseFloat(getComputedStyle(root).getPropertyValue('--marquee-duration')) || 60;
+        track.style.transform = '';
+        track.style.animation = '';
+        track.style.animationDelay = `-${(progress * dur).toFixed(2)}s`;
+        root.toggleAttribute('data-paused', false);
+      });
+    });
+  };
+  init();
+  document.addEventListener('astro:page-load', init);
+</script>

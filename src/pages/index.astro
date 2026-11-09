@@ -6,6 +6,8 @@ import FAQs from '~/components/widgets/FAQs.astro';
 import StructuredData from '~/components/common/StructuredData.astro';
 import CategoryCard from '~/components/joel/CategoryCard.astro';
 import ContactSection from '~/components/joel/ContactSection.astro';
+import ReviewsMarquee from '~/components/joel/ReviewsMarquee.astro';
+import { OPINIONES } from '~/data/opiniones';
 import { CATALOGO, foto } from '~/data/catalogo';
 import { NEGOCIO, waLink } from '~/data/negocio';
 import { SITE, I18N } from 'astrowind:config';
@@ -25,7 +27,8 @@ const SLIDE = 'w-[80%] flex-none snap-center md:w-auto';
 const bodas = CATALOGO.filter((c) => c.grupo === 'Bodas');
 const eventos = CATALOGO.filter((c) => c.grupo !== 'Bodas');
 
-const HERO = foto('B-HAC-01');
+// Portada: boda en la playa bajo la Vía Láctea (lo eterno de una boda).
+const HERO = foto('B-PLA-03');
 const RETRATO = foto('B-MOM-03');
 
 // Mosaico de momentos: selección de Imagenes/bodas/momentos y otras.
@@ -56,27 +59,6 @@ const PROCESO = [
   },
 ];
 
-// TODO: sustituir por opiniones reales copiadas (con permiso) de la página de Facebook.
-const OPINIONES = [
-  {
-    texto:
-      'Joel captó momentos que ni nosotros vimos. Cada vez que abrimos el álbum volvemos a sentir ese día. Súper profesional y atento con nuestras familias.',
-    autor: 'Novios',
-    evento: 'Boda en hacienda',
-  },
-  {
-    texto:
-      'Mi hija se sintió como modelo en la sesión de XV. Las fotos quedaron hermosas y la entrega fue rapidísima. Lo recomiendo muchísimo.',
-    autor: 'Mamá de quinceañera',
-    evento: 'XV años',
-  },
-  {
-    texto:
-      'Desde la primera llamada nos dio confianza. En la playa con el viento y todo, las fotos salieron increíbles. ¡Gracias por todo, Joel!',
-    autor: 'Novios',
-    evento: 'Boda en la playa',
-  },
-];
 
 const organizationId = `${SITE?.site}/#organization`;
 const structuredData = [
@@ -107,53 +89,83 @@ const structuredData = [
   <StructuredData slot="head" schema={structuredData} />
 
   <!-- Portada ****************************** -->
-  <section class="relative isolate flex min-h-[calc(100svh-72px)] items-end overflow-hidden bg-black text-white">
-    <Image
-      src={HERO.src}
-      alt={HERO.alt}
-      width={1920}
-      height={1280}
-      widths={[640, 1080, 1440, 1920, 2400]}
-      sizes="100vw"
-      layout="cover"
-      loading="eager"
-      fetchpriority="high"
-      class="absolute inset-0 -z-10 h-full w-full object-cover opacity-80"
-    />
-    <div class="absolute inset-0 -z-10 bg-gradient-to-t from-black/85 via-black/30 to-black/40"></div>
+  <!--
+    Móvil: la foto ocupa casi toda la pantalla con el título arriba (cielo) y deja
+    libres a los novios y la Vía Láctea; el resto del texto va debajo, sobre negro.
+    Escritorio: foto de fondo completa con el texto a la derecha (los novios quedan a la izquierda).
+  -->
+  <section class="relative isolate overflow-hidden bg-black text-white lg:flex lg:min-h-[calc(100svh-72px)] lg:items-center">
+    <div class="relative h-[72svh] min-h-[440px] lg:absolute lg:inset-0 lg:-z-10 lg:h-auto">
+      <Image
+        src={HERO.src}
+        alt={HERO.alt}
+        width={1920}
+        height={1280}
+        widths={[640, 1080, 1440, 1920, 2400]}
+        sizes="100vw"
+        layout="cover"
+        loading="eager"
+        fetchpriority="high"
+        class="absolute inset-0 h-full w-full object-cover object-[34%_center] lg:object-center"
+      />
+      <div class="absolute inset-0 bg-gradient-to-b from-black/75 via-black/0 via-45% to-black lg:hidden"></div>
+      <div class="absolute inset-0 hidden bg-gradient-to-l from-black/80 via-black/35 to-black/0 lg:block"></div>
 
-    <!-- Búho: sello de la casa (marca de agua grande en escritorio) -->
+      <!-- Título sobre el cielo (solo móvil) -->
+      <div class="absolute inset-x-0 top-0 px-5 pt-7 sm:px-6 lg:hidden">
+        <div class="flex items-center gap-3">
+          <Image
+            src={buhoClaro}
+            alt="Búho, sello de Fotografía Joel Godoy"
+            width={96}
+            widths={[96, 192]}
+            sizes="56px"
+            loading="eager"
+            class="h-auto w-12 opacity-95"
+          />
+          <p class="text-[0.62rem] font-semibold uppercase leading-relaxed tracking-[0.3em] text-white/85">
+            Fotografía de bodas<br />Los Mochis, Sinaloa
+          </p>
+        </div>
+        <p class="mt-5 font-heading text-[2.6rem] leading-[0.98] [text-shadow:0_2px_18px_rgb(0_0_0/0.6)]" aria-hidden="true">
+          Historias que se quedan <em class="text-[#d9b48c]">para siempre</em>.
+        </p>
+      </div>
+    </div>
+
+    <!-- Búho: sello de la casa (marca de agua tenue en el cielo, escritorio) -->
     <Image
       src={buhoClaro}
       alt=""
       width={560}
       widths={[360, 560, 900]}
-      sizes="(max-width: 1023px) 0px, 36vw"
+      sizes="(max-width: 1023px) 0px, 30vw"
       loading="eager"
-      class="pointer-events-none absolute -right-10 top-1/2 -z-10 hidden w-[36vw] max-w-[560px] -translate-y-1/2 opacity-[0.22] lg:block"
+      class="pointer-events-none absolute left-[6%] top-10 -z-10 hidden w-[22vw] max-w-[360px] opacity-[0.12] lg:block"
     />
 
-    <div class="mx-auto w-full max-w-7xl px-4 pb-14 pt-40 sm:px-6 md:pb-20">
-      <Image
-        src={buhoClaro}
-        alt="Búho, sello de Fotografía Joel Godoy"
-        width={96}
-        widths={[96, 192]}
-        sizes="96px"
-        loading="eager"
-        class="mb-6 h-auto w-16 opacity-95 md:w-20"
-      />
-      <p class="text-[0.7rem] font-semibold uppercase tracking-[0.35em] text-white/80">
-        Fotografía de bodas · Los Mochis, Sinaloa
-      </p>
-      <h1 class="mt-5 max-w-4xl font-heading text-[3.1rem] leading-[0.98] sm:text-7xl lg:text-[6.2rem]">
-        Historias que se quedan <em class="text-[#d9b48c]">para siempre</em>.
-      </h1>
-      <p class="mt-6 max-w-xl text-base leading-relaxed text-white/80 md:text-lg">
+    <div class="relative mx-auto w-full max-w-7xl px-5 pb-12 sm:px-6 lg:py-20">
+      <div class="lg:ml-auto lg:max-w-[40rem]">
+        <Image
+          src={buhoClaro}
+          alt="Búho, sello de Fotografía Joel Godoy"
+          width={96}
+          widths={[96, 192]}
+          sizes="96px"
+          loading="eager"
+          class="mb-6 hidden h-auto w-20 opacity-95 lg:block"
+        />
+        <p class="hidden text-[0.7rem] font-semibold uppercase tracking-[0.35em] text-white/80 lg:block">
+          Fotografía de bodas · Los Mochis, Sinaloa
+        </p>
+        <h1 class="sr-only mt-5 font-heading leading-[0.98] lg:not-sr-only lg:block lg:text-[5.2rem]">
+          Historias que se quedan <em class="text-[#d9b48c]">para siempre</em>.
+        </h1>
+      <p class="-mt-2 max-w-xl text-base leading-relaxed text-white/80 md:text-lg lg:mt-6">
         Bodas en playa, salón y hacienda, XV años y momentos en familia. Fotografía natural, elegante y sin poses
         forzadas.
       </p>
-      <div class="mt-9 flex flex-col gap-3 sm:flex-row">
+      <div class="mt-8 flex flex-col gap-3 sm:flex-row">
         <a
           href="#catalogo"
           class="inline-flex items-center justify-center rounded-full bg-white px-8 py-3.5 font-semibold text-[#1c1915] transition hover:bg-[#efe7dc]"
@@ -169,7 +181,7 @@ const structuredData = [
         </a>
       </div>
 
-      <dl class="mt-14 grid max-w-2xl grid-cols-3 gap-6 border-t border-white/20 pt-6 text-white/90">
+      <dl class="mt-10 grid max-w-2xl grid-cols-3 gap-6 border-t border-white/20 pt-6 text-white/90 lg:mt-14">
         <div>
           <dt class="text-[0.65rem] uppercase tracking-[0.2em] text-white/60">Seguidores</dt>
           <dd class="mt-1 font-heading text-3xl md:text-4xl">{NEGOCIO.seguidores}</dd>
@@ -183,11 +195,12 @@ const structuredData = [
           <dd class="mt-1 font-heading text-3xl md:text-4xl">{NEGOCIO.opiniones}</dd>
         </div>
       </dl>
+      </div>
     </div>
   </section>
 
   <!-- Estilo / presentación ***************** -->
-  <section id="estilo" class="scroll-mt-20">
+  <section id="estilo" class="scroll-mt-[7.5rem] lg:scroll-mt-20">
     <div class="mx-auto grid max-w-7xl items-center gap-12 px-4 py-20 sm:px-6 md:py-28 lg:grid-cols-12 lg:gap-16">
       <div class="lg:col-span-5">
         <div class="relative">
@@ -253,7 +266,7 @@ const structuredData = [
   </section>
 
   <!-- Catálogo ****************************** -->
-  <section id="catalogo" class="scroll-mt-20 bg-soft">
+  <section id="catalogo" class="scroll-mt-[7.5rem] lg:scroll-mt-20 bg-soft">
     <div class="mx-auto max-w-7xl px-4 py-20 sm:px-6 md:py-28">
       <div class="flex flex-col justify-between gap-6 md:flex-row md:items-end">
         <div>
@@ -308,7 +321,7 @@ const structuredData = [
   </section>
 
   <!-- Proceso ******************************* -->
-  <section id="proceso" class="scroll-mt-20 border-y border-black/10 dark:border-white/10">
+  <section id="proceso" class="scroll-mt-[7.5rem] lg:scroll-mt-20 border-y border-black/10 dark:border-white/10">
     <div class="mx-auto max-w-7xl px-4 py-20 sm:px-6 md:py-28">
       <div class="max-w-2xl">
         <p class="eyebrow">Cómo trabajamos</p>
@@ -331,7 +344,7 @@ const structuredData = [
   </section>
 
   <!-- Opiniones ***************************** -->
-  <section id="opiniones" class="scroll-mt-20">
+  <section id="opiniones" class="scroll-mt-[7.5rem] lg:scroll-mt-20">
     <div class="mx-auto max-w-7xl px-4 py-20 sm:px-6 md:py-28">
       <div class="flex flex-col justify-between gap-6 md:flex-row md:items-end">
         <div>
@@ -351,18 +364,8 @@ const structuredData = [
           <Icon name="tabler:arrow-up-right" class="h-4 w-4" />
         </a>
       </div>
-      <div class="mt-12 grid gap-6 md:grid-cols-3">
-        {
-          OPINIONES.map((o) => (
-            <figure class="flex flex-col justify-between bg-soft p-8">
-              <blockquote class="font-heading text-[1.35rem] italic leading-snug text-heading">“{o.texto}”</blockquote>
-              <figcaption class="mt-8 text-sm">
-                <span class="font-semibold text-heading">{o.autor}</span>
-                <span class="text-muted"> · {o.evento}</span>
-              </figcaption>
-            </figure>
-          ))
-        }
+      <div class="mt-12">
+        <ReviewsMarquee opiniones={OPINIONES} />
       </div>
     </div>
   </section>

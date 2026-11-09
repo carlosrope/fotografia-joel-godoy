@@ -5,8 +5,9 @@ export const NEGOCIO = {
   fotografo: 'Joel Godoy',
   ciudad: 'Los Mochis, Sinaloa',
   zona: 'Los Mochis · Topolobampo · El Fuerte · Guasave · todo Sinaloa',
-  // TODO: reemplazar por el número real de WhatsApp (formato internacional sin "+", p. ej. 52 1 668 123 4567 → '5216681234567').
-  whatsapp: '5216680000000',
+  // WhatsApp de Joel: 668 828 2535 (formato internacional sin "+": 52 + 10 dígitos).
+  whatsapp: '526688282535',
+  telefono: '668 828 2535',
   email: 'joelgodoyfoto01@gmail.com',
   facebook: 'https://www.facebook.com/FotografiaJoelGodoy',
   // TODO: agregar Instagram si existe.
