@@ -1,8 +1,8 @@
 ---
 // Modo "números": muestra una etiqueta con el número de cada sección y elemento
 // (atributo data-ref) para pedir cambios rápido, p. ej. "2.3: cambia el título".
-// Se activa abriendo la página con ?numeros y se apaga con ?numeros=0 o con el
-// botón "Ocultar números". Se recuerda en este navegador mientras navegas.
+// Solo aparece si la dirección lleva ?numeros (los enlaces internos lo conservan);
+// el enlace normal de la web nunca los muestra.
 ---
 
 <style is:global>
@@ -62,19 +62,28 @@
 </style>
 
 <script>
-  const KEY = 'jg-numeros';
+  // Solo se muestran si la dirección lleva ?numeros. No se guarda nada en el
+  // navegador: el enlace normal siempre se ve limpio. (Se borra la marca que
+  // dejaba la versión anterior.)
+  try {
+    localStorage.removeItem('jg-numeros');
+  } catch {
+    /* sin almacenamiento */
+  }
 
   const enabled = () => {
     const p = new URLSearchParams(location.search);
-    try {
-      if (p.has('numeros')) {
-        if (p.get('numeros') === '0') localStorage.removeItem(KEY);
-        else localStorage.setItem(KEY, '1');
-      }
-      return localStorage.getItem(KEY) === '1';
-    } catch {
-      return p.has('numeros') && p.get('numeros') !== '0';
-    }
+    return p.has('numeros') && p.get('numeros') !== '0';
+  };
+
+  // Con los números activos, los enlaces internos los conservan al navegar.
+  const carryParam = () => {
+    document.querySelectorAll<HTMLAnchorElement>('a[href]').forEach((a) => {
+      const url = new URL(a.href, location.href);
+      if (url.origin !== location.origin || url.searchParams.has('numeros')) return;
+      url.searchParams.set('numeros', '');
+      a.href = url.pathname + url.search.replace('numeros=', 'numeros') + url.hash;
+    });
   };
 
   const clear = () => {
@@ -86,6 +95,7 @@
     clear();
     if (!enabled()) return;
     document.documentElement.classList.add('show-refs');
+    carryParam();
 
     const placed: DOMRect[] = [];
     document.querySelectorAll<HTMLElement>('[data-ref]').forEach((el) => {
@@ -122,15 +132,9 @@
     btn.className = 'ref-toggle';
     btn.textContent = 'Ocultar números';
     btn.addEventListener('click', () => {
-      try {
-        localStorage.removeItem(KEY);
-      } catch {
-        /* sin almacenamiento */
-      }
       const url = new URL(location.href);
       url.searchParams.delete('numeros');
-      history.replaceState(history.state, '', url);
-      clear();
+      location.href = url.toString();
     });
     document.body.append(btn);
   };
