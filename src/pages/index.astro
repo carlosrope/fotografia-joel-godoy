@@ -196,7 +196,7 @@ const structuredData = [
 
   <!-- 3 · Catálogo *************************** -->
   <section id="catalogo" data-ref="3" data-ref-name="Catálogo" class="scroll-mt-20 bg-soft">
-    <div class="mx-auto max-w-7xl px-4 py-20 sm:px-6 md:py-28">
+    <div class="mx-auto max-w-7xl px-4 py-12 sm:px-6 md:py-28">
       <div data-ref="3.1" data-ref-name="Título" class="flex flex-col justify-between gap-6 md:flex-row md:items-end">
         <div>
           <p class="eyebrow">Catálogo</p>
@@ -209,14 +209,14 @@ const structuredData = [
         </p>
       </div>
 
-      <h3 class="mt-14 mb-5 flex items-center justify-between text-xs font-semibold uppercase tracking-[0.3em] text-muted">
+      <h3 class="mt-8 mb-4 flex md:mt-14 md:mb-5 items-center justify-between text-xs font-semibold uppercase tracking-[0.3em] text-muted">
         Bodas <span class="text-[0.65rem] tracking-[0.2em] md:hidden">Desliza →</span>
       </h3>
       <div class={CARRUSEL} data-ref="3.2" data-ref-name="Bodas">
         {bodas.map((c) => <div class={SLIDE}><CategoryCard categoria={c} size="tall" /></div>)}
       </div>
 
-      <h3 class="mt-14 mb-5 flex items-center justify-between text-xs font-semibold uppercase tracking-[0.3em] text-muted">
+      <h3 class="mt-8 mb-4 flex md:mt-14 md:mb-5 items-center justify-between text-xs font-semibold uppercase tracking-[0.3em] text-muted">
         XV años y eventos <span class="text-[0.65rem] tracking-[0.2em] md:hidden">Desliza →</span>
       </h3>
       <div class={CARRUSEL} data-ref="3.3" data-ref-name="XV años y eventos">
@@ -231,9 +231,9 @@ const structuredData = [
     aria-label="Momentos"
     data-ref="4"
     data-ref-name="Momentos"
-    class="mx-auto max-w-7xl scroll-mt-20 px-4 py-20 sm:px-6 md:py-28"
+    class="mx-auto max-w-7xl scroll-mt-20 px-4 py-12 sm:px-6 md:py-28"
   >
-    <div class="mb-12 text-center" data-ref="4.1" data-ref-name="Título">
+    <div class="mb-8 text-center md:mb-12" data-ref="4.1" data-ref-name="Título">
       <p class="eyebrow">Momentos</p>
       <h2 class="mt-4 font-heading text-4xl leading-[1.05] text-heading md:text-[3.2rem]">
         Lo que se siente, <em class="text-accent">se ve</em>.
@@ -249,14 +249,14 @@ const structuredData = [
     data-ref-name="Proceso"
     class="scroll-mt-20 border-t border-black/10 dark:border-white/10"
   >
-    <div class="mx-auto max-w-7xl px-4 py-20 sm:px-6 md:py-28">
+    <div class="mx-auto max-w-7xl px-4 py-12 sm:px-6 md:py-28">
       <div class="max-w-2xl" data-ref="5.1" data-ref-name="Título">
         <p class="eyebrow">Cómo trabajamos</p>
         <h2 class="mt-4 font-heading text-4xl leading-[1.05] text-heading md:text-[3.2rem]">
           De la primera llamada <em class="text-accent">a tu galería</em>.
         </h2>
       </div>
-      <ol data-ref="5.2" data-ref-name="Pasos" class="mt-14 grid gap-10 sm:grid-cols-2 lg:grid-cols-4 lg:gap-8">
+      <ol data-ref="5.2" data-ref-name="Pasos" class="mt-8 grid gap-7 sm:grid-cols-2 md:mt-14 md:gap-10 lg:grid-cols-4 lg:gap-8">
         {
           PROCESO.map((p) => (
             <li class="border-t border-heading/80 pt-6">
@@ -272,7 +272,7 @@ const structuredData = [
 
   <!-- 6 · Estilo / presentación ************** -->
   <section id="estilo" data-ref="6" data-ref-name="Estilo" class="scroll-mt-20 bg-soft">
-    <div class="mx-auto max-w-7xl px-4 py-20 sm:px-6 md:py-28">
+    <div class="mx-auto max-w-7xl px-4 py-12 sm:px-6 md:py-28">
       <div data-ref="6.1" data-ref-name="Título" class="max-w-3xl">
         <p class="eyebrow">Nuestro estilo</p>
         <h2 class="mt-4 font-heading text-4xl leading-[1.05] text-heading md:text-[3.6rem]">
@@ -280,7 +280,7 @@ const structuredData = [
         </h2>
       </div>
 
-      <div class="mt-12 grid items-center gap-16 lg:mt-14 lg:grid-cols-12">
+      <div class="mt-8 grid items-center gap-14 lg:mt-14 lg:grid-cols-12">
         <div class="lg:col-span-5">
           <div class="relative" data-ref="6.2" data-ref-name="Foto">
             <Image
@@ -345,7 +345,7 @@ const structuredData = [
 
   <!-- 7 · Opiniones ************************** -->
   <section id="opiniones" data-ref="7" data-ref-name="Opiniones" class="scroll-mt-20">
-    <div class="mx-auto max-w-7xl px-4 py-20 sm:px-6 md:py-28">
+    <div class="mx-auto max-w-7xl px-4 py-12 sm:px-6 md:py-28">
       <div data-ref="7.1" data-ref-name="Título" class="flex flex-col justify-between gap-6 md:flex-row md:items-end">
         <div>
           <p class="eyebrow">Opiniones</p>
@@ -364,7 +364,7 @@ const structuredData = [
           <Icon name="tabler:arrow-up-right" class="h-4 w-4" />
         </a>
       </div>
-      <div class="mt-12">
+      <div class="mt-8 md:mt-12">
         <ReviewsMarquee opiniones={OPINIONES} />
       </div>
     </div>

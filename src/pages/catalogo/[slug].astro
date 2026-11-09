@@ -46,7 +46,7 @@ const metadata = {
       class="absolute inset-0 -z-10 h-full w-full object-cover opacity-75"
     />
     <div class="absolute inset-0 -z-10 bg-gradient-to-t from-black/80 via-black/20 to-black/30"></div>
-    <div class="mx-auto w-full max-w-7xl px-4 pb-12 pt-32 sm:px-6 md:pb-16">
+    <div class="mx-auto w-full max-w-7xl px-4 pb-10 pt-28 sm:px-6 md:pb-16">
       <nav aria-label="Ruta" data-ref="C1.1" data-ref-name="Ruta" class="text-xs uppercase tracking-[0.25em] text-white/70">
         <a href={getPermalink('/')} class="hover:text-white">Inicio</a>
         <span class="mx-2">/</span>
@@ -65,7 +65,7 @@ const metadata = {
   <section
     data-ref="C2"
     data-ref-name="Descripción y qué incluye"
-    class="mx-auto grid max-w-7xl gap-12 px-4 py-16 sm:px-6 md:py-24 lg:grid-cols-12"
+    class="mx-auto grid max-w-7xl gap-10 px-4 py-12 sm:px-6 md:gap-12 md:py-24 lg:grid-cols-12"
   >
     <div class="lg:col-span-6" data-ref="C2.1" data-ref-name="Descripción y botón Agendar">
       <p class="eyebrow">La experiencia</p>
@@ -109,7 +109,7 @@ const metadata = {
 
   <!-- Otras categorías ********************** -->
   <section class="bg-soft" data-ref="C4" data-ref-name="También fotografiamos">
-    <div class="mx-auto max-w-7xl px-4 py-16 sm:px-6 md:py-24">
+    <div class="mx-auto max-w-7xl px-4 py-12 sm:px-6 md:py-24">
       <p class="eyebrow">También fotografiamos</p>
       <div class="mt-8 grid gap-5 md:grid-cols-3">
         {otras.map((c) => <CategoryCard categoria={c} size="wide" />)}
