@@ -7,7 +7,7 @@ import StructuredData from '~/components/common/StructuredData.astro';
 import CategoryCard from '~/components/joel/CategoryCard.astro';
 import ContactSection from '~/components/joel/ContactSection.astro';
 import ReviewsMarquee from '~/components/joel/ReviewsMarquee.astro';
-import { OPINIONES } from '~/data/opiniones';
+import { OPINIONES, RECOMIENDAN } from '~/data/opiniones';
 import { CATALOGO, foto } from '~/data/catalogo';
 import { NEGOCIO, waLink } from '~/data/negocio';
 import { SITE, I18N } from 'astrowind:config';
@@ -94,8 +94,16 @@ const structuredData = [
     libres a los novios y la Vía Láctea; el resto del texto va debajo, sobre negro.
     Escritorio: foto de fondo completa con el texto a la derecha (los novios quedan a la izquierda).
   -->
-  <section class="relative isolate overflow-hidden bg-black text-white lg:flex lg:min-h-[calc(100svh-72px)] lg:items-center">
-    <div class="relative h-[72svh] min-h-[440px] lg:absolute lg:inset-0 lg:-z-10 lg:h-auto">
+  <section
+    data-ref="2"
+    data-ref-name="Portada"
+    class="relative isolate overflow-hidden bg-black text-white lg:flex lg:min-h-[calc(100svh-72px)] lg:items-center"
+  >
+    <div
+      data-ref="2.1"
+      data-ref-name="Foto de portada"
+      class="relative h-[72svh] min-h-[440px] lg:absolute lg:inset-0 lg:-z-10 lg:h-auto"
+    >
       <Image
         src={HERO.src}
         alt={HERO.alt}
@@ -113,7 +121,7 @@ const structuredData = [
 
       <!-- Título sobre el cielo (solo móvil) -->
       <div class="absolute inset-x-0 top-0 px-5 pt-7 sm:px-6 lg:hidden">
-        <div class="flex items-center gap-3">
+        <div class="flex items-center gap-3" data-ref="2.2" data-ref-name="Búho y lugar">
           <Image
             src={buhoClaro}
             alt="Búho, sello de Fotografía Joel Godoy"
@@ -127,7 +135,12 @@ const structuredData = [
             Fotografía de bodas<br />Los Mochis, Sinaloa
           </p>
         </div>
-        <p class="mt-5 font-heading text-[2.6rem] leading-[0.98] [text-shadow:0_2px_18px_rgb(0_0_0/0.6)]" aria-hidden="true">
+        <p
+          data-ref="2.3"
+          data-ref-name="Título"
+          class="mt-5 font-heading text-[2.6rem] leading-[0.98] [text-shadow:0_2px_18px_rgb(0_0_0/0.6)]"
+          aria-hidden="true"
+        >
           Historias que se quedan <em class="text-[#d9b48c]">para siempre</em>.
         </p>
       </div>
@@ -146,26 +159,36 @@ const structuredData = [
 
     <div class="relative mx-auto w-full max-w-7xl px-5 pb-12 sm:px-6 lg:py-20">
       <div class="lg:ml-auto lg:max-w-[40rem]">
-        <Image
-          src={buhoClaro}
-          alt="Búho, sello de Fotografía Joel Godoy"
-          width={96}
-          widths={[96, 192]}
-          sizes="96px"
-          loading="eager"
-          class="mb-6 hidden h-auto w-20 opacity-95 lg:block"
-        />
-        <p class="hidden text-[0.7rem] font-semibold uppercase tracking-[0.35em] text-white/80 lg:block">
-          Fotografía de bodas · Los Mochis, Sinaloa
-        </p>
-        <h1 class="sr-only mt-5 font-heading leading-[0.98] lg:not-sr-only lg:block lg:text-[5.2rem]">
+        <div class="hidden lg:block" data-ref="2.2" data-ref-name="Búho y lugar">
+          <Image
+            src={buhoClaro}
+            alt="Búho, sello de Fotografía Joel Godoy"
+            width={96}
+            widths={[96, 192]}
+            sizes="96px"
+            loading="eager"
+            class="mb-6 h-auto w-20 opacity-95"
+          />
+          <p class="text-[0.7rem] font-semibold uppercase tracking-[0.35em] text-white/80">
+            Fotografía de bodas · Los Mochis, Sinaloa
+          </p>
+        </div>
+        <h1
+          data-ref="2.3"
+          data-ref-name="Título"
+          class="sr-only mt-5 font-heading leading-[0.98] lg:not-sr-only lg:block lg:text-[5.2rem]"
+        >
           Historias que se quedan <em class="text-[#d9b48c]">para siempre</em>.
         </h1>
-      <p class="-mt-2 max-w-xl text-base leading-relaxed text-white/80 md:text-lg lg:mt-6">
+      <p
+        data-ref="2.4"
+        data-ref-name="Texto"
+        class="-mt-2 max-w-xl text-base leading-relaxed text-white/80 md:text-lg lg:mt-6"
+      >
         Bodas en playa, salón y hacienda, XV años y momentos en familia. Fotografía natural, elegante y sin poses
         forzadas.
       </p>
-      <div class="mt-8 flex flex-col gap-3 sm:flex-row">
+      <div class="mt-8 flex flex-col gap-3 sm:flex-row" data-ref="2.5" data-ref-name="Botones">
         <a
           href="#catalogo"
           class="inline-flex items-center justify-center rounded-full bg-white px-8 py-3.5 font-semibold text-[#1c1915] transition hover:bg-[#efe7dc]"
@@ -181,7 +204,7 @@ const structuredData = [
         </a>
       </div>
 
-      <dl class="mt-10 grid max-w-2xl grid-cols-3 gap-6 border-t border-white/20 pt-6 text-white/90 lg:mt-14">
+      <dl data-ref="2.6" data-ref-name="Cifras" class="mt-10 grid max-w-2xl grid-cols-3 gap-6 border-t border-white/20 pt-6 text-white/90 lg:mt-14">
         <div>
           <dt class="text-[0.65rem] uppercase tracking-[0.2em] text-white/60">Seguidores</dt>
           <dd class="mt-1 font-heading text-3xl md:text-4xl">{NEGOCIO.seguidores}</dd>
@@ -200,10 +223,10 @@ const structuredData = [
   </section>
 
   <!-- Estilo / presentación ***************** -->
-  <section id="estilo" class="scroll-mt-[7.5rem] lg:scroll-mt-20">
+  <section id="estilo" data-ref="3" data-ref-name="Estilo" class="scroll-mt-[7.5rem] lg:scroll-mt-20">
     <div class="mx-auto grid max-w-7xl items-center gap-12 px-4 py-20 sm:px-6 md:py-28 lg:grid-cols-12 lg:gap-16">
       <div class="lg:col-span-5">
-        <div class="relative">
+        <div class="relative" data-ref="3.1" data-ref-name="Foto">
           <Image
             src={RETRATO.src}
             alt={RETRATO.alt}
@@ -214,6 +237,8 @@ const structuredData = [
             class="aspect-[4/5] w-full rounded-sm object-cover"
           />
           <div
+            data-ref="3.2"
+            data-ref-name="Tarjeta de Joel"
             class="absolute -bottom-8 -right-2 flex max-w-[17rem] items-center gap-4 bg-page p-4 shadow-xl shadow-black/10 sm:-right-4 md:-right-8 md:p-5"
           >
             <Image
@@ -233,11 +258,13 @@ const structuredData = [
         </div>
       </div>
       <div class="lg:col-span-6 lg:col-start-7">
-        <p class="eyebrow">Nuestro estilo</p>
-        <h2 class="mt-4 font-heading text-4xl leading-[1.05] text-heading md:text-[3.6rem]">
-          Fotografía documental con <em class="text-accent">alma editorial</em>.
-        </h2>
-        <div class="mt-7 space-y-5 text-[1.05rem] leading-relaxed text-muted">
+        <div data-ref="3.3" data-ref-name="Título">
+          <p class="eyebrow">Nuestro estilo</p>
+          <h2 class="mt-4 font-heading text-4xl leading-[1.05] text-heading md:text-[3.6rem]">
+            Fotografía documental con <em class="text-accent">alma editorial</em>.
+          </h2>
+        </div>
+        <div data-ref="3.4" data-ref-name="Texto" class="mt-7 space-y-5 text-[1.05rem] leading-relaxed text-muted">
           <p>
             Soy {NEGOCIO.fotografo}, fotógrafo profesional en Los Mochis. Me especializo en bodas y fotografía de
             eventos: observo, anticipo y guío lo justo para que tú solo te preocupes por disfrutar.
@@ -247,7 +274,7 @@ const structuredData = [
             bien hoy que dentro de veinte años.
           </p>
         </div>
-        <ul class="mt-9 grid gap-4 sm:grid-cols-3">
+        <ul data-ref="3.5" data-ref-name="Cualidades" class="mt-9 grid gap-4 sm:grid-cols-3">
           {
             [
               { i: 'tabler:sun-high', t: 'Luz natural' },
@@ -266,9 +293,9 @@ const structuredData = [
   </section>
 
   <!-- Catálogo ****************************** -->
-  <section id="catalogo" class="scroll-mt-[7.5rem] lg:scroll-mt-20 bg-soft">
+  <section id="catalogo" data-ref="4" data-ref-name="Catálogo" class="scroll-mt-[7.5rem] lg:scroll-mt-20 bg-soft">
     <div class="mx-auto max-w-7xl px-4 py-20 sm:px-6 md:py-28">
-      <div class="flex flex-col justify-between gap-6 md:flex-row md:items-end">
+      <div data-ref="4.1" data-ref-name="Título" class="flex flex-col justify-between gap-6 md:flex-row md:items-end">
         <div>
           <p class="eyebrow">Catálogo</p>
           <h2 class="mt-4 font-heading text-4xl leading-[1.05] text-heading md:text-[3.6rem]">
@@ -283,28 +310,28 @@ const structuredData = [
       <h3 class="mt-14 mb-5 flex items-center justify-between text-xs font-semibold uppercase tracking-[0.3em] text-muted">
         Bodas <span class="text-[0.65rem] tracking-[0.2em] md:hidden">Desliza →</span>
       </h3>
-      <div class={CARRUSEL}>
+      <div class={CARRUSEL} data-ref="4.2" data-ref-name="Bodas">
         {bodas.map((c) => <div class={SLIDE}><CategoryCard categoria={c} size="tall" /></div>)}
       </div>
 
       <h3 class="mt-14 mb-5 flex items-center justify-between text-xs font-semibold uppercase tracking-[0.3em] text-muted">
         XV años y eventos <span class="text-[0.65rem] tracking-[0.2em] md:hidden">Desliza →</span>
       </h3>
-      <div class={CARRUSEL}>
+      <div class={CARRUSEL} data-ref="4.3" data-ref-name="XV años y eventos">
         {eventos.map((c) => <div class={SLIDE}><CategoryCard categoria={c} size="tall" /></div>)}
       </div>
     </div>
   </section>
 
   <!-- Momentos (mosaico) ******************** -->
-  <section aria-label="Momentos" class="mx-auto max-w-7xl px-4 py-20 sm:px-6 md:py-28">
-    <div class="mb-12 text-center">
+  <section aria-label="Momentos" data-ref="5" data-ref-name="Momentos" class="mx-auto max-w-7xl px-4 py-20 sm:px-6 md:py-28">
+    <div class="mb-12 text-center" data-ref="5.1" data-ref-name="Título">
       <p class="eyebrow">Momentos</p>
       <h2 class="mt-4 font-heading text-4xl leading-[1.05] text-heading md:text-[3.2rem]">
         Lo que se siente, <em class="text-accent">se ve</em>.
       </h2>
     </div>
-    <div class="columns-2 gap-4 md:columns-3 md:gap-5">
+    <div class="columns-2 gap-4 md:columns-3 md:gap-5" data-ref="5.2" data-ref-name="Mosaico de fotos">
       {
         MOMENTOS.map((f) => (
           <Image
@@ -321,15 +348,20 @@ const structuredData = [
   </section>
 
   <!-- Proceso ******************************* -->
-  <section id="proceso" class="scroll-mt-[7.5rem] lg:scroll-mt-20 border-y border-black/10 dark:border-white/10">
+  <section
+    id="proceso"
+    data-ref="6"
+    data-ref-name="Proceso"
+    class="scroll-mt-[7.5rem] lg:scroll-mt-20 border-y border-black/10 dark:border-white/10"
+  >
     <div class="mx-auto max-w-7xl px-4 py-20 sm:px-6 md:py-28">
-      <div class="max-w-2xl">
+      <div class="max-w-2xl" data-ref="6.1" data-ref-name="Título">
         <p class="eyebrow">Cómo trabajamos</p>
         <h2 class="mt-4 font-heading text-4xl leading-[1.05] text-heading md:text-[3.2rem]">
           De la primera llamada <em class="text-accent">a tu galería</em>.
         </h2>
       </div>
-      <ol class="mt-14 grid gap-10 sm:grid-cols-2 lg:grid-cols-4 lg:gap-8">
+      <ol data-ref="6.2" data-ref-name="Pasos" class="mt-14 grid gap-10 sm:grid-cols-2 lg:grid-cols-4 lg:gap-8">
         {
           PROCESO.map((p) => (
             <li class="border-t border-heading/80 pt-6">
@@ -344,9 +376,9 @@ const structuredData = [
   </section>
 
   <!-- Opiniones ***************************** -->
-  <section id="opiniones" class="scroll-mt-[7.5rem] lg:scroll-mt-20">
+  <section id="opiniones" data-ref="7" data-ref-name="Opiniones" class="scroll-mt-[7.5rem] lg:scroll-mt-20">
     <div class="mx-auto max-w-7xl px-4 py-20 sm:px-6 md:py-28">
-      <div class="flex flex-col justify-between gap-6 md:flex-row md:items-end">
+      <div data-ref="7.1" data-ref-name="Título" class="flex flex-col justify-between gap-6 md:flex-row md:items-end">
         <div>
           <p class="eyebrow">Opiniones</p>
           <h2 class="mt-4 font-heading text-4xl leading-[1.05] text-heading md:text-[3.2rem]">
@@ -365,12 +397,13 @@ const structuredData = [
         </a>
       </div>
       <div class="mt-12">
-        <ReviewsMarquee opiniones={OPINIONES} />
+        <ReviewsMarquee opiniones={OPINIONES} nombres={RECOMIENDAN} />
       </div>
     </div>
   </section>
 
   <!-- Preguntas frecuentes ****************** -->
+  <div data-ref="8" data-ref-name="Preguntas frecuentes">
   <FAQs
     id="preguntas"
     tagline="Preguntas frecuentes"
@@ -410,6 +443,7 @@ const structuredData = [
       },
     ]}
   />
+  </div>
 
   <!-- Contacto ****************************** -->
   <ContactSection />

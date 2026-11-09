@@ -11,9 +11,14 @@ export interface Props {
 const { categoria } = Astro.props;
 ---
 
-<section id="contacto" class="scroll-mt-[7.5rem] lg:scroll-mt-20 bg-[#1c1915] text-[#efe7dc]">
+<section
+  id="contacto"
+  data-ref="9"
+  data-ref-name="Contacto"
+  class="scroll-mt-[7.5rem] lg:scroll-mt-20 bg-[#1c1915] text-[#efe7dc]"
+>
   <div class="mx-auto grid max-w-7xl gap-12 px-4 py-20 sm:px-6 md:py-28 lg:grid-cols-2 lg:gap-20">
-    <div>
+    <div data-ref="9.1" data-ref-name="Texto y datos">
       <p class="eyebrow !text-[#c9a27a]">Contacto</p>
       <h2 class="mt-4 font-heading text-4xl leading-[1.05] text-white md:text-6xl">
         Cuéntanos de <em class="text-[#c9a27a]">tu día</em>.
@@ -42,6 +47,8 @@ const { categoria } = Astro.props;
 
     <form
       id="cotizar"
+      data-ref="9.2"
+      data-ref-name="Formulario"
       data-wa={NEGOCIO.whatsapp}
       class="grid gap-5 rounded-sm border border-white/10 bg-white/[0.03] p-6 sm:grid-cols-2 md:p-8"
     >

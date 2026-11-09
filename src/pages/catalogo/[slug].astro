@@ -28,7 +28,11 @@ const metadata = {
 
 <Layout metadata={metadata}>
   <!-- Encabezado de categoría *************** -->
-  <section class="relative isolate flex min-h-[62vh] items-end overflow-hidden bg-black text-white">
+  <section
+    data-ref="C1"
+    data-ref-name="Portada de la categoría"
+    class="relative isolate flex min-h-[62vh] items-end overflow-hidden bg-black text-white"
+  >
     <Image
       src={categoria.portada.src}
       alt={categoria.portada.alt}
@@ -43,21 +47,27 @@ const metadata = {
     />
     <div class="absolute inset-0 -z-10 bg-gradient-to-t from-black/80 via-black/20 to-black/30"></div>
     <div class="mx-auto w-full max-w-7xl px-4 pb-12 pt-32 sm:px-6 md:pb-16">
-      <nav aria-label="Ruta" class="text-xs uppercase tracking-[0.25em] text-white/70">
+      <nav aria-label="Ruta" data-ref="C1.1" data-ref-name="Ruta" class="text-xs uppercase tracking-[0.25em] text-white/70">
         <a href={getPermalink('/')} class="hover:text-white">Inicio</a>
         <span class="mx-2">/</span>
         <a href={getPermalink('/#catalogo')} class="hover:text-white">Catálogo</a>
         <span class="mx-2">/</span>
         <span class="text-white">{categoria.grupo}</span>
       </nav>
-      <h1 class="mt-5 font-heading text-5xl leading-[0.98] sm:text-6xl lg:text-[5.5rem]">{categoria.titulo}</h1>
-      <p class="mt-3 font-heading text-2xl italic text-[#d9b48c] md:text-3xl">{categoria.frase}</p>
+      <div data-ref="C1.2" data-ref-name="Título y frase">
+        <h1 class="mt-5 font-heading text-5xl leading-[0.98] sm:text-6xl lg:text-[5.5rem]">{categoria.titulo}</h1>
+        <p class="mt-3 font-heading text-2xl italic text-[#d9b48c] md:text-3xl">{categoria.frase}</p>
+      </div>
     </div>
   </section>
 
   <!-- Descripción + qué incluye ************* -->
-  <section class="mx-auto grid max-w-7xl gap-12 px-4 py-16 sm:px-6 md:py-24 lg:grid-cols-12">
-    <div class="lg:col-span-6">
+  <section
+    data-ref="C2"
+    data-ref-name="Descripción y qué incluye"
+    class="mx-auto grid max-w-7xl gap-12 px-4 py-16 sm:px-6 md:py-24 lg:grid-cols-12"
+  >
+    <div class="lg:col-span-6" data-ref="C2.1" data-ref-name="Descripción y botón">
       <p class="eyebrow">La experiencia</p>
       <p class="mt-5 font-heading text-[1.75rem] leading-snug text-heading md:text-[2.1rem]">{categoria.descripcion}</p>
       <a
@@ -69,7 +79,7 @@ const metadata = {
         <Icon name="tabler:brand-whatsapp" class="h-5 w-5" /> Cotizar {categoria.tituloCorto.toLowerCase()}
       </a>
     </div>
-    <div class="bg-soft p-8 md:p-10 lg:col-span-5 lg:col-start-8">
+    <div class="bg-soft p-8 md:p-10 lg:col-span-5 lg:col-start-8" data-ref="C2.2" data-ref-name="Qué incluye">
       <p class="eyebrow">Qué incluye</p>
       <ul class="mt-6 space-y-4">
         {
@@ -86,17 +96,19 @@ const metadata = {
   </section>
 
   <!-- Galería ******************************* -->
-  <Gallery
-    tagline="Galería"
-    title={`${categoria.titulo}: algunos momentos`}
-    subtitle="Toca una foto para verla en grande."
-    columns={3}
-    images={categoria.galeria}
-    classes={{ container: 'max-w-7xl', headline: { title: 'font-heading font-medium' } }}
-  />
+  <div data-ref="C3" data-ref-name="Galería">
+    <Gallery
+      tagline="Galería"
+      title={`${categoria.titulo}: algunos momentos`}
+      subtitle="Toca una foto para verla en grande."
+      columns={3}
+      images={categoria.galeria}
+      classes={{ container: 'max-w-7xl', headline: { title: 'font-heading font-medium' } }}
+    />
+  </div>
 
   <!-- Otras categorías ********************** -->
-  <section class="bg-soft">
+  <section class="bg-soft" data-ref="C4" data-ref-name="También fotografiamos">
     <div class="mx-auto max-w-7xl px-4 py-16 sm:px-6 md:py-24">
       <p class="eyebrow">También fotografiamos</p>
       <div class="mt-8 grid gap-5 md:grid-cols-3">

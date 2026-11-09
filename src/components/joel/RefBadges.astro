@@ -1,0 +1,140 @@
+---
+// Modo "números": muestra una etiqueta con el número de cada sección y elemento
+// (atributo data-ref) para pedir cambios rápido, p. ej. "2.3: cambia el título".
+// Se activa abriendo la página con ?numeros y se apaga con ?numeros=0 o con el
+// botón "Ocultar números". Se recuerda en este navegador mientras navegas.
+---
+
+<style is:global>
+  html.show-refs [data-ref] {
+    outline: 1px dashed rgb(160 122 79 / 0.65);
+    outline-offset: -1px;
+  }
+  .ref-badge {
+    position: absolute;
+    left: 4px;
+    z-index: 70;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    max-width: calc(100% - 8px);
+    padding: 2px 7px 2px 6px;
+    border-radius: 999px;
+    background: #1c1915;
+    color: #efe7dc;
+    font: 600 11px/1.5 var(--aw-font-sans, system-ui), system-ui, sans-serif;
+    letter-spacing: 0;
+    text-transform: none;
+    font-style: normal;
+    white-space: nowrap;
+    pointer-events: none;
+    box-shadow: 0 1px 4px rgb(0 0 0 / 0.35);
+  }
+  .ref-badge b {
+    color: #e2b98a;
+    font-weight: 800;
+  }
+  .ref-badge span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .ref-badge[data-major] {
+    font-size: 13px;
+    padding: 3px 10px 3px 8px;
+    background: #a07a4f;
+    color: #fff;
+  }
+  .ref-badge[data-major] b {
+    color: #fff;
+  }
+  .ref-toggle {
+    position: fixed;
+    left: 12px;
+    bottom: 20px;
+    z-index: 80;
+    border-radius: 999px;
+    background: #1c1915;
+    color: #efe7dc;
+    padding: 8px 14px;
+    font: 600 12px/1 system-ui, sans-serif;
+    box-shadow: 0 2px 10px rgb(0 0 0 / 0.3);
+  }
+</style>
+
+<script>
+  const KEY = 'jg-numeros';
+
+  const enabled = () => {
+    const p = new URLSearchParams(location.search);
+    try {
+      if (p.has('numeros')) {
+        if (p.get('numeros') === '0') localStorage.removeItem(KEY);
+        else localStorage.setItem(KEY, '1');
+      }
+      return localStorage.getItem(KEY) === '1';
+    } catch {
+      return p.has('numeros') && p.get('numeros') !== '0';
+    }
+  };
+
+  const clear = () => {
+    document.querySelectorAll('.ref-badge, .ref-toggle').forEach((el) => el.remove());
+    document.documentElement.classList.remove('show-refs');
+  };
+
+  const render = () => {
+    clear();
+    if (!enabled()) return;
+    document.documentElement.classList.add('show-refs');
+
+    const placed: DOMRect[] = [];
+    document.querySelectorAll<HTMLElement>('[data-ref]').forEach((el) => {
+      const ref = el.dataset.ref!;
+      if (getComputedStyle(el).position === 'static') el.style.position = 'relative';
+
+      const badge = document.createElement('span');
+      badge.className = 'ref-badge';
+      if (!ref.includes('.')) badge.dataset.major = '';
+      const b = document.createElement('b');
+      b.textContent = ref;
+      badge.append(b);
+      if (el.dataset.refName && el.offsetWidth > 110) {
+        const s = document.createElement('span');
+        s.textContent = el.dataset.refName;
+        badge.append(s);
+      }
+      badge.style.top = '4px';
+      el.append(badge);
+
+      // Si choca con otra etiqueta (p. ej. sección y su primer elemento), bajarla.
+      for (let i = 0; i < 6; i++) {
+        const r = badge.getBoundingClientRect();
+        const hit = placed.some((p) => !(r.right < p.left || r.left > p.right || r.bottom < p.top || r.top > p.bottom));
+        if (!hit) break;
+        badge.style.top = `${4 + (i + 1) * 24}px`;
+      }
+      const r = badge.getBoundingClientRect();
+      if (r.width) placed.push(r);
+    });
+
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'ref-toggle';
+    btn.textContent = 'Ocultar números';
+    btn.addEventListener('click', () => {
+      try {
+        localStorage.removeItem(KEY);
+      } catch {
+        /* sin almacenamiento */
+      }
+      const url = new URL(location.href);
+      url.searchParams.delete('numeros');
+      history.replaceState(history.state, '', url);
+      clear();
+    });
+    document.body.append(btn);
+  };
+
+  render();
+  document.addEventListener('astro:page-load', render);
+</script>
